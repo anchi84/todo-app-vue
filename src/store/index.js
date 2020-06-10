@@ -6,7 +6,9 @@ import VueAxios from 'vue-axios';
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
 Vue.axios.defaults.baseURL = "https://jsonplaceholder.typicode.com/";
-Vue.axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+delete Vue.axios.defaults.headers.common['X-CSRF-TOKEN'];
+delete Vue.axios.defaults.headers.common['X-Requested-With'];
+delete Vue.axios.defaults.headers.common['Authorization']
 
 export default new Vuex.Store({
   state: {
@@ -49,24 +51,22 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    setTodos({commit}) {
-      Vue.axios.get('todos').then(result => {
-        console.log(result.data);  
-        commit('setTodos', result.data);
-      }).catch(error => {
-        throw new Error(`API ${error}`);
-      });
-    },
-    setUsers({commit}) {
+    setUsersAndTodos({commit}) {
       Vue.axios.get('users').then(result => {
         console.log(result.data);  
         commit('setUsers', result.data);
+        Vue.axios.get('todos').then(result => {
+          console.log(result.data);  
+          commit('setTodos', result.data);
+        }).catch(error => {
+          throw new Error(`API ${error}`);
+        });
       }).catch(error => {
         throw new Error(`API ${error}`);
       });
     },
     addNewTask({commit}, todo) { 
-        commit('addNewTask', todo);
+      commit('addNewTask', todo);
     },
     auth_request({commit, state}, { email, password }) {
       return new Promise((resolve, reject) => {

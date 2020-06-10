@@ -13,8 +13,7 @@ export default {
     Footer
   },
  created() {    
-    this.$store.dispatch('setTodos');
-    this.$store.dispatch('setUsers');
+    this.$store.dispatch('setUsersAndTodos');
   }
 };
 </script>
