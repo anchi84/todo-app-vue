@@ -6,6 +6,7 @@ import VueAxios from 'vue-axios';
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
 Vue.axios.defaults.baseURL = "https://jsonplaceholder.typicode.com/";
+Vue.axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 export default new Vuex.Store({
   state: {
@@ -82,6 +83,6 @@ export default new Vuex.Store({
     },
     logout({commit}) { 
       commit('logout');
-  },
+    },
   }
 });
